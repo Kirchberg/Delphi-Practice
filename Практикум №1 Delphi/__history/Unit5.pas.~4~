@@ -1,0 +1,79 @@
+unit Unit5;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.UITypes;
+
+type
+  TForm5 = class(TForm)
+    Label1Unit5: TLabel;
+    Label2Unit5: TLabel;
+    FindEdit3: TEdit;
+    FindEdit4: TEdit;
+    Label3Unit5: TLabel;
+    ListBox3: TListBox;
+    EndButton5: TButton;
+    Button1: TButton;
+    ClearButton3: TButton;
+    procedure EndButton5Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure ClearButton3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form5: TForm5;
+
+implementation
+
+Uses Unit1;
+
+{$R *.dfm}
+
+procedure TForm5.Button1Click(Sender: TObject);
+ var
+  c:integer;
+  yearPublication:string[4];
+  publisherLocal: string[22];
+begin
+  c:= 1;
+  publisherLocal:= FindEdit3.Text;
+  yearPublication:= FindEdit4.Text;
+  while not EOF(f) do
+    begin
+      Read(f,z);
+      if ((publisherLocal = z.publisher) and (strtoint(yearPublication) = strtoint(z.yearOfPublication))) then
+        begin
+          c:= 0;
+          ListBox3.Items.Add(z.name);
+        end;
+    end;
+      if c <> 0 then
+        MessageDlg('Нет данных', mtError, [mbOK], 0);
+end;
+
+
+procedure TForm5.ClearButton3Click(Sender: TObject);
+begin
+  FindEdit3.Clear;
+  findEdit4.Clear;
+  Listbox3.Items.Clear;
+  CloseFile(f);
+  AssignFile(f, 'E:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+end;
+
+procedure TForm5.EndButton5Click(Sender: TObject);
+begin
+  Mainform.Visible:= true;
+  CloseFile(f); //Закрываю форму и перехожу опять в главное меню
+  MainForm.Button3.SetFocus;
+  Form5.Close;
+end;
+
+end.

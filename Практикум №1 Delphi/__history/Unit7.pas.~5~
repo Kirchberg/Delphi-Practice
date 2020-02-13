@@ -1,0 +1,82 @@
+unit Unit7;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm7 = class(TForm)
+    Label1Unit7: TLabel;
+    Label2Unit7: TLabel;
+    FindEdit5: TEdit;
+    FindEdit6: TEdit;
+    EndButton6: TButton;
+    ClearButton4: TButton;
+    DeleteButton: TButton;
+    procedure ClearButton4Click(Sender: TObject);
+    procedure EndButton6Click(Sender: TObject);
+    procedure DeleteButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form7: TForm7;
+
+implementation
+
+Uses Unit1, Unit2;
+
+{$R *.dfm}
+
+procedure TForm7.ClearButton4Click(Sender: TObject);
+begin
+  FindEdit5.Clear;
+  FindEdit6.Clear;
+  CloseFile(f);
+  AssignFile(f, 'E:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+end;
+
+procedure TForm7.DeleteButtonClick(Sender: TObject);
+var
+  c:integer;
+  authorName:string[4];
+  bookName: string[22];
+  check:boolean;
+
+begin
+  bool:= false;
+  authorName:= FindEdit5.Text;
+  bookName:= FindEdit6.Text;
+  while (not EOF(f)) and (not check) do
+    begin
+      Read(f,z);
+      if ((authorName = z.author) and (z.name = bookName)) then
+        check:= true;
+    end;
+      if check then
+        delete(FilePos(f))
+    else
+      begin
+         MessageDlg('Нет данных для удаления', mtError, [mbOK], 0);
+         FindEdit5.Clear;
+         FindEdit6.Clear;
+      end;
+
+end;
+
+procedure TForm7.EndButton6Click(Sender: TObject);
+begin
+  Mainform.Visible:= true;
+  CloseFile(f); //Закрываю форму и перехожу опять в главное меню
+  MainForm.EndButton.SetFocus;
+  Form7.Close;
+end;
+
+end.
+

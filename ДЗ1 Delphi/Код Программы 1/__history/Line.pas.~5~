@@ -1,0 +1,100 @@
+unit Line;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TForm1 = class(TForm)
+    ExitButton: TButton;
+    Image: TImage;
+    RadioGroup1: TRadioGroup;
+    procedure ExitButtonClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+
+
+  end;
+
+  procedure strelka(X1, Y1, X2, Y2: integer; cv: TCanvas);
+  function ugol(X1, Y1, X2, Y2: integer): double;
+var
+  Form1: TForm1;
+  x1, y1, x2, y2: integer;
+implementation
+
+Uses Math;
+
+{$R *.dfm}
+
+function ugol(X1, Y1, X2, Y2: integer): double;
+  var r, c: real;
+    begin
+    r := sqrt(sqr(x2 - x1) + sqr(y2 - y1));//расстояние от центра до вершины
+    c := (x2 - x1) / r; //косинус угла
+    if y2 < y1 then
+    ugol := arccos(c)//вершина ниже цнтра
+    else
+    ugol := 2 * pi - arccos(c); //выше или = y1
+    end;
+
+procedure strelka(X1, Y1, X2, Y2: integer; cv: TCanvas);
+  var
+  p: array[1..4] of TPoint;
+  u: double;
+    begin
+    u := ugol(X1, Y1, X2, Y2);
+    p[1].X := X2;
+    p[1].Y := Y2;
+    p[2].X := p[1].X + round(-20 * cos(u + pi / 8));
+    p[2].Y := p[1].Y - round(-20 * sin(u + pi / 8));
+    p[3].X := p[1].X + round(-20 * cos(u - pi / 8));
+    p[3].Y := p[1].Y - round(-20 * sin(u - pi / 8));
+    p[4] := p[1];
+    cv.polygon(p); //рисуем стрелку
+    end;
+
+procedure TForm1.ExitButtonClick(Sender: TObject); //Кнопка выхода
+  begin
+    close;
+  end;
+
+
+
+procedure TForm1.FormActivate(Sender: TObject);  //Белый фон у рисунка при активации программы
+  begin
+    Image.Canvas.Brush.Color := clWhite;
+  end;
+
+procedure TForm1.ImageMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer); // Нажатие клавиш кнопок мыши
+  begin
+    Canvas.Pen.Color := clBlack;
+    Canvas.Pen.Width := 2;
+    Canvas.Brush.color := clBlack;
+
+    if button = mbLeft then
+      begin
+        if (RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1) then
+          begin
+            x1 := x;
+            y1 := y;
+            Canvas.MoveTo(x, y);
+            Canvas.Ellipse(x - 1, y - 1, x + 1, y + 1);
+          end;
+    end;
+
+    if button = mbRight then
+      begin
+        X2 := x;
+        Y2 := y;
+        Canvas.LineTo(X2, Y2);
+        if RadioGroup1.ItemIndex = 1 then
+          strelka(X1, Y1, X2, Y2, Canvas);  //Рисование стрелки на конце линии
+    end;
+  end;
+
+end.

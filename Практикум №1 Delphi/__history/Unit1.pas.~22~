@@ -1,0 +1,130 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.UITypes;
+
+type
+  TMainForm = class(TForm)
+    EndButton: TButton;
+    Button1: TButton;
+    Button2: TButton;
+    DeleteButton: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
+    procedure EndButtonClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure DeleteButtonClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+type
+  zap = record
+    author: string[22]; //Автор
+    name:string[22];    //Произведение
+    publisher:string[22]; //Издательство
+    yearOfPublication: string[22];  //Год публикации
+    numberOfCopies: string[22]; //Кол-во копий
+  end;
+
+var
+  MainForm: TMainForm;
+  f: file of zap;
+  z: zap;
+
+implementation
+
+Uses Unit2, Unit3, Unit4, Unit5, Unit6;
+
+{$R *.dfm}
+
+procedure TMainForm.Button1Click(Sender: TObject); //Создать/добавить информацию об авторе
+var
+  size: integer;
+
+begin
+  Mainform.Visible:= false;
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt'); //Связываю переменную с файлом
+  {I+} Reset(f);{I-}
+  if IOResult = 0 then   //Проверяю на существование
+    begin
+      size := FileSize(f);
+      Seek(f, size);
+    end
+  else
+    Rewrite(f);
+  Form2.Show;
+  Form2.Edit1.SetFocus;
+  Form2.Edit1.Clear;
+  Form2.Edit2.Clear;
+  Form2.Edit3.Clear;
+  Form2.Edit4.Clear;
+  Form2.Edit5.Clear;  //Очищаю формы для заполнения новых данных
+
+end;
+
+procedure TMainForm.Button2Click(Sender: TObject); //Найти все книги автора
+begin
+  Mainform.Visible:= false;
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+  Form3.Show;
+  Form3.Edit1.SetFocus;
+  Form3.Edit1.Clear;
+  Form3.ListBox1.Clear;  //Очищаю формы для заполнения новых данных
+end;
+
+procedure TMainForm.Button3Click(Sender: TObject); //Найти автора по кол-ву книг
+begin
+  Mainform.Visible:= false;
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+  Form4.Show;
+  Form4.FindEdit2.SetFocus;
+  Form4.FindEdit2.Clear;
+  Form4.ListBox2.Clear;  //Очищаю формы для заполнения новых данных
+end;
+
+procedure TMainForm.Button4Click(Sender: TObject); //Найти все книги авторов данного
+                                                   //издательства и данного года
+begin
+  Mainform.Visible:= false;
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+  Form5.Show;
+  Form5.FindEdit3.SetFocus;
+  Form5.FindEdit3.Clear;
+  Form5.FindEdit4.Clear;
+  Form5.ListBox3.Clear;   //Очищаю формы для заполнения новых данных
+end;
+
+
+procedure TMainForm.Button5Click(Sender: TObject); //Построение диаграммы распределения книг
+begin
+  Mainform.Visible:= false;
+  Form6.Show;
+end;
+
+procedure TMainForm.DeleteButtonClick(Sender: TObject); //Удалить все данные
+begin
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Rewrite(f);
+  CloseFile(f);   //Пересоздание файла
+end;
+
+procedure TMainForm.EndButtonClick(Sender: TObject);
+begin
+  Close; //Закрыть программу
+end;
+
+end.

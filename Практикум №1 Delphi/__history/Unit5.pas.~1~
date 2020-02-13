@@ -1,0 +1,43 @@
+unit Unit5;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm5 = class(TForm)
+    Label1Unit5: TLabel;
+    Label2Unit5: TLabel;
+    FindEdit3: TEdit;
+    FindEdit4: TEdit;
+    Label3Unit5: TLabel;
+    ListBox3: TListBox;
+    EndButton5: TButton;
+    Button1: TButton;
+    procedure EndButton5Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form5: TForm5;
+
+implementation
+
+Uses Unit1;
+
+{$R *.dfm}
+
+procedure TForm5.EndButton5Click(Sender: TObject);
+begin
+  CloseFile(f); //«акрываю форму и перехожу оп€ть в главное меню
+  MainForm.Show;
+  MainForm.Button3.SetFocus;
+  Form5.Close;
+end;
+
+end.

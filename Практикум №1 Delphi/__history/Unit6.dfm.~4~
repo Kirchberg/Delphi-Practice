@@ -1,0 +1,32 @@
+object Form6: TForm6
+  Left = 0
+  Top = 0
+  Caption = 'Form6'
+  ClientHeight = 530
+  ClientWidth = 782
+  Color = clMedGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Image1: TImage
+    Left = 8
+    Top = 8
+    Width = 766
+    Height = 467
+  end
+  object EndButton10: TButton
+    Left = 296
+    Top = 481
+    Width = 209
+    Height = 41
+    Caption = #1042#1077#1088#1085#1091#1090#1100#1089#1103
+    TabOrder = 0
+    OnClick = EndButton10Click
+  end
+end

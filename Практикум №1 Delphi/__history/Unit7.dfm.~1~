@@ -1,0 +1,42 @@
+object Form7: TForm7
+  Left = 0
+  Top = 0
+  Caption = 'Form7'
+  ClientHeight = 319
+  ClientWidth = 371
+  Color = clMedGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1Unit7: TLabel
+    Left = 16
+    Top = 24
+    Width = 138
+    Height = 23
+    Caption = #1042#1074#1077#1076#1080#1090#1077' '#1072#1074#1090#1086#1088#1072
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2Unit7: TLabel
+    Left = 16
+    Top = 64
+    Width = 126
+    Height = 23
+    Caption = #1042#1074#1077#1076#1080#1090#1077' '#1082#1085#1080#1075#1091
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+end

@@ -1,0 +1,73 @@
+unit Unit3;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.UITypes;
+
+type
+  TForm3 = class(TForm)
+    Label1: TLabel;
+    Edit1: TEdit;
+    ListBox1: TListBox;
+    EndButton3: TButton;
+    Label2: TLabel;
+    Button1: TButton;
+    ClearButton: TButton;
+    procedure EndButton3Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure ClearButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+Uses Unit1;
+
+{$R *.dfm}
+
+procedure TForm3.Button1Click(Sender: TObject); //Кнопка поиска книг
+  var
+    c:integer;  //Проверка на существование автора
+    aut:string[22]; //Временная переменная для хранения введенного автора
+
+    begin
+        c:= 1;
+        aut:= Edit1.Text; //Сохраняю имя введенного автора
+        while not EOF(f) do
+          begin
+            Read(f,z);
+            if z.author = aut then  //Если мы нашли нужного автора
+              begin
+                c:= 0;
+                ListBox1.Items.Add(z.name); //Добавляю книгу в ListBox
+              end;
+          end;
+        if c <> 0 then
+          MessageDlg('Нет данных', mtError, [mbOK], 0); //Может быть случай, когда автора вообще нет в БД
+    end;
+
+procedure TForm3.ClearButtonClick(Sender: TObject); //Кнопка очистки полей для повторного ввода
+begin
+  Edit1.Clear;
+  Listbox1.Items.Clear;
+  CloseFile(f);
+  AssignFile(f, 'F:\2-ой семестр\О-ОП\Практикум\Vvod.txt');
+  Reset(f);
+end;
+
+procedure TForm3.EndButton3Click(Sender: TObject); //Кнопка вернуться в главное меню
+  begin
+    Mainform.Visible:= true;
+    CloseFile(f); //Закрываю форму и перехожу опять в главное меню
+    Form3.Close;
+  end;
+
+end.

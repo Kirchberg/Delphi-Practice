@@ -1,0 +1,62 @@
+unit Line;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    ExitButton: TButton;
+    procedure ExitButtonClick(Sender: TObject);
+
+
+  end;
+
+  procedure strelka(X1, Y1, X2, Y2: integer; cv: TCanvas);
+  function ugol(X1, Y1, X2, Y2: integer): double;
+var
+  Form1: TForm1;
+
+implementation
+
+Uses Math;
+
+{$R *.dfm}
+
+function ugol(X1, Y1, X2, Y2: integer): double;
+  var r, c: real;
+    begin
+    r := sqrt(sqr(x2 - x1) + sqr(y2 - y1));//расстояние от центра до вершины
+    c := (x2 - x1) / r; //косинус угла
+    if y2 < y1 then
+    ugol := arccos(c)//вершина ниже цнтра
+    else
+    ugol := 2 * pi - arccos(c); //выше или = y1
+    end;
+
+procedure strelka(X1, Y1, X2, Y2: integer; cv: TCanvas);
+  var
+  p: array[1..4] of TPoint;
+  u: double;
+    begin
+    u := ugol(X1, Y1, X2, Y2);
+    p[1].X := X2;
+    p[1].Y := Y2;
+    p[2].X := p[1].X + round(-20 * cos(u + pi / 8));
+    p[2].Y := p[1].Y - round(-20 * sin(u + pi / 8));
+    p[3].X := p[1].X + round(-20 * cos(u - pi / 8));
+    p[3].Y := p[1].Y - round(-20 * sin(u - pi / 8));
+    p[4] := p[1];
+    cv.polygon(p); //рисуем стрелку
+    end;
+
+procedure TForm1.ExitButtonClick(Sender: TObject);
+  begin
+    close;
+  end;
+
+
+
+end.
